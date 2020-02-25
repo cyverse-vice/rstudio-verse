@@ -3,7 +3,7 @@ MAINTAINER "Tyson Lee Swetnam tswetnam@cyverse.org"
 # This image uses the Rocker verse RStudio image - thanks R OpenSci!
 
 ## Install CyVerse VICE Depends
-RUN apt-get update && apt-get install -y lsb wget apt-transport-https python2.7 python-requests curl supervisor nginx gnupg2
+RUN apt-get update && apt-get install -y wget apt-transport-https python2.7 python-requests curl supervisor nginx gnupg2
 
 RUN apt-get install libfuse2
 
@@ -30,6 +30,12 @@ COPY nginx.conf.tmpl /nginx.conf.tmpl
 COPY rserver.conf /etc/rstudio/rserver.conf
 COPY supervisor-nginx.conf /etc/supervisor/conf.d/nginx.conf
 COPY supervisor-rstudio.conf /etc/supervisor/conf.d/rstudio.conf
+
+# iCommands json configuration for rstudio user profile
+USER rstudio
+RUN mkdir /home/rstudio/.irods/
+RUN echo '{"irods_host": "data.cyverse.org", "irods_port": 1247, "irods_user_name": "", "irods_zone_name": "iplant"}' >> /home/rstudio/.irods/irods_environment.json
+USER root
 
 ENV REDIRECT_URL "http://localhost/"
 
