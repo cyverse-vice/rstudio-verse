@@ -1,4 +1,4 @@
-FROM rocker/verse:latest
+FROM rocker/verse:4.0.0-ubuntu18.04
 MAINTAINER "Tyson Lee Swetnam tswetnam@cyverse.org"
 # This image uses the Rocker verse RStudio image - thanks R OpenSci!
 
@@ -31,12 +31,21 @@ COPY rserver.conf /etc/rstudio/rserver.conf
 COPY supervisor-nginx.conf /etc/supervisor/conf.d/nginx.conf
 COPY supervisor-rstudio.conf /etc/supervisor/conf.d/rstudio.conf
 
-# iCommands json configuration for rstudio user profile
-USER rstudio
-RUN mkdir /home/rstudio/.irods/
-RUN echo '{"irods_host": "data.cyverse.org", "irods_port": 1247, "irods_user_name": "", "irods_zone_name": "iplant"}' >> /home/rstudio/.irods/irods_environment.json
-USER root
-
 ENV REDIRECT_URL "http://localhost/"
+
+ARG LOCAL_USER=rstudio
+ARG PRIV_CMDS='/bin/ch*,/bin/cat,/bin/gunzip,/bin/tar,/bin/mkdir,/bin/ps,/bin/mv,/bin/cp,/usr/bin/apt*,/usr/bin/pip*,/bin/yum'
+
+RUN if [ -x /usr/bin/apt ]; then \
+      apt-get update && apt-get -y install sudo && rm -rf /var/lib/apt/lists/*; \
+    elif [ -x /bin/yum ]; then \
+      yum -y update && yum -y install sudo && yum clean all; \
+    fi
+
+RUN echo "$LOCAL_USER	ALL=NOPASSWD: $PRIV_CMDS" >> /etc/sudoers
+
+USER rstudio
+RUN echo 'export PS1="[\u@cyverse] \w $ "' >> /home/rstudio/.bash_profile
+USER root
 
 ENTRYPOINT ["/usr/local/bin/run.sh"]
