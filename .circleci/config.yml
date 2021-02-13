@@ -20,9 +20,9 @@ jobs:
       - checkout
       - run: rstudio-server version
 
-Workflows:
+workflows:
   build:
     jobs:
-      -build0
-      -build1
-      -build2
+      - build0
+      - build1
+      - build2
