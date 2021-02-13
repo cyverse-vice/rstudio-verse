@@ -1,8 +1,26 @@
-version: 2
+Workflows:
+  version: 2
+  build0_to_build2:
+    jobs:
+      -build0
+      -build1
+      -build2
 jobs:
-  build:
+  build0:
     docker:
-      - image: cyversevice/rstudio-geospatial:latest
+      - image: cyversevice/rstudio-verse:latest
+    steps:
+      - checkout
+      - run: rstudio-server version
+build1:
+    docker:
+      - image: cyversevice/rstudio-verse:4.0.0-ubuntu18.04
+    steps:
+      - checkout
+      - run: rstudio-server version
+build2:
+    docker:
+      - image: cyversevice/rstudio-geospatial:3.6.3
     steps:
       - checkout
       - run: rstudio-server version
