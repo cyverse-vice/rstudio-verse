@@ -1,20 +1,45 @@
 FROM rocker/verse:4.0.0-ubuntu18.04
+# This image uses the Rocker-Project verse RStudio image - thanks R OpenSci and Rocker!
+
+# Build-time metadata as defined at http://label-schema.org
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+LABEL org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.name="CyVerse RStudio verse" \
+      org.label-schema.description="Built from Rocker-Project RStudio Verse, additional depends for CyVerse K8s workbench" \
+      org.label-schema.url="https://cyverse.org" \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="e.g. https://github.com/cyverse-vice/rstudio-verse" \
+      org.label-schema.vendor="CyVerse" \
+      org.label-schema.version=$VERSION \
+      org.label-schema.schema-version="1.0.0"
+
 MAINTAINER "Tyson Lee Swetnam tswetnam@cyverse.org"
-# This image uses the Rocker verse RStudio image - thanks R OpenSci!
 
-## Install CyVerse VICE Depends
-RUN apt-get update && apt-get install -y wget apt-transport-https python2.7 python-requests curl supervisor nginx gnupg2
+# Install a few dependencies for iCommands, text editing, and monitoring instances
+RUN apt-get update && apt-get install -y lsb-release wget apt-transport-https curl supervisor nginx gnupg2 libfuse2 nano htop gcc less nodejs software-properties-common apt-utils glances
 
-RUN apt-get install libfuse2
+RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add - && \
+    echo "deb [arch=amd64] https://packages.irods.org/apt/ bionic  main" > /etc/apt/sources.list.d/renci-irods.list && \
+    apt-get update && \
+    wget -c \
+    http://security.ubuntu.com/ubuntu/pool/main/p/python-urllib3/python-urllib3_1.22-1ubuntu0.18.04.2_all.deb \
+    http://security.ubuntu.com/ubuntu/pool/main/r/requests/python-requests_2.18.4-2ubuntu0.1_all.deb \
+    http://security.ubuntu.com/ubuntu/pool/main/o/openssl1.0/libssl1.0.0_1.0.2n-1ubuntu5.5_amd64.deb && \
+    apt install -y \
+    ./python-urllib3_1.22-1ubuntu0.18.04.2_all.deb \
+    ./python-requests_2.18.4-2ubuntu0.1_all.deb \
+    ./libssl1.0.0_1.0.2n-1ubuntu5.5_amd64.deb && \
+    rm -rf \
+    ./python-urllib3_1.22-1ubuntu0.18.04.2_all.deb \
+    ./python-requests_2.18.4-2ubuntu0.1_all.deb \
+    ./libssl1.0.0_1.0.2n-1ubuntu5.5_amd64.deb
 
-RUN curl "http://ftp.se.debian.org/debian/pool/main/o/openssl/libssl1.0.0_1.0.1t-1+deb8u8_amd64.deb" -O && \
-    dpkg -i libssl1.0.0_1.0.1t-1+deb8u8_amd64.deb && \
-    rm libssl1.0.0_1.0.1t-1+deb8u8_amd64.deb
+RUN apt install -y irods-icommands
 
-# Install iCommands
-RUN wget https://files.renci.org/pub/irods/releases/4.1.10/ubuntu14/irods-icommands-4.1.10-ubuntu14-x86_64.deb && dpkg -i irods-icommands-4.1.10-ubuntu14-x86_64.deb
-
-ADD https://github.com/hairyhenderson/gomplate/releases/download/v2.5.0/gomplate_linux-amd64 /usr/bin/gomplate
+# Add gomplate
+ADD https://github.com/hairyhenderson/gomplate/releases/download/v3.9.0/gomplate_linux-amd64 /usr/bin/gomplate
 RUN chmod a+x /usr/bin/gomplate
 
 # provide read and write access to Rstudio users for default R library location
@@ -42,10 +67,6 @@ RUN if [ -x /usr/bin/apt ]; then \
       yum -y update && yum -y install sudo && yum clean all; \
     fi
 
-RUN echo "$LOCAL_USER	ALL=NOPASSWD: $PRIV_CMDS" >> /etc/sudoers
-
-USER rstudio
-RUN echo 'export PS1="[\u@cyverse] \w $ "' >> /home/rstudio/.bash_profile
-USER root
+RUN echo "$LOCAL_USER ALL=NOPASSWD: $PRIV_CMDS" >> /etc/sudoers
 
 ENTRYPOINT ["/usr/local/bin/run.sh"]
