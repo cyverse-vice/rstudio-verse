@@ -12,13 +12,13 @@ jobs:
     steps:
       - checkout
       - run: rstudio-server version
-build1:
+ build1:
     docker:
       - image: cyversevice/rstudio-verse:4.0.0-ubuntu18.04
     steps:
       - checkout
       - run: rstudio-server version
-build2:
+ build2:
     docker:
       - image: cyversevice/rstudio-geospatial:3.6.3
     steps:
