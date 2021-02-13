@@ -1,10 +1,5 @@
 version: 2.1
-Workflows:
-  build:
-    jobs:
-      -build0
-      -build1
-      -build2
+
 jobs:
   build0:
     docker:
@@ -24,3 +19,10 @@ jobs:
     steps:
       - checkout
       - run: rstudio-server version
+
+Workflows:
+  build:
+    jobs:
+      -build0
+      -build1
+      -build2
