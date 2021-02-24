@@ -1,6 +1,21 @@
 FROM rocker/verse:4.0.0-ubuntu18.04
+# This image uses the Rocker-Project verse RStudio image - thanks R OpenSci and Rocker!
+
+# Build-time metadata as defined at http://label-schema.org
+ARG BUILD_DATE
+ARG VCS_REF
+ARG VERSION
+LABEL org.label-schema.build-date=$BUILD_DATE \
+      org.label-schema.name="CyVerse RStudio verse" \
+      org.label-schema.description="Built from Rocker-Project RStudio Verse, additional depends for CyVerse K8s workbench" \
+      org.label-schema.url="https://cyverse.org" \
+      org.label-schema.vcs-ref=$VCS_REF \
+      org.label-schema.vcs-url="e.g. https://github.com/cyverse-vice/rstudio-verse" \
+      org.label-schema.vendor="CyVerse" \
+      org.label-schema.version=$VERSION \
+      org.label-schema.schema-version="1.0.0"
+
 MAINTAINER "Tyson Lee Swetnam tswetnam@cyverse.org"
-# This image uses the Rocker verse RStudio image - thanks R OpenSci!
 
 # Install a few dependencies for iCommands, text editing, and monitoring instances
 RUN apt-get update && apt-get install -y lsb-release wget apt-transport-https curl supervisor nginx gnupg2 libfuse2 nano htop gcc less nodejs software-properties-common apt-utils glances
@@ -53,10 +68,6 @@ RUN if [ -x /usr/bin/apt ]; then \
       yum -y update && yum -y install sudo && yum clean all; \
     fi
 
-RUN echo "$LOCAL_USER	ALL=NOPASSWD: $PRIV_CMDS" >> /etc/sudoers
-
-USER rstudio
-RUN echo 'export PS1="[\u@cyverse] \w $ "' >> /home/rstudio/.bash_profile
-USER root
+RUN echo "$LOCAL_USER ALL=NOPASSWD: $PRIV_CMDS" >> /etc/sudoers
 
 ENTRYPOINT ["/usr/local/bin/run.sh"]
