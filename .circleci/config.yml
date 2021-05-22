@@ -9,7 +9,13 @@ jobs:
       - run: rstudio-server version
   build1:
     docker:
-      - image: cyversevice/rstudio-verse:4.0.0-ubuntu18.04
+      - image: cyversevice/rstudio-verse:4.0.5
+    steps:
+      - checkout
+      - run: rstudio-server version
+  build2:
+    docker:
+      - image: cyversevice/rstudio-geospatial:4.0.0-ubuntu18.04
     steps:
       - checkout
       - run: rstudio-server version
@@ -19,10 +25,11 @@ jobs:
     steps:
       - checkout
       - run: rstudio-server version
-
+      
 workflows:
   build:
     jobs:
       - build0
       - build1
       - build2
+      - build3
