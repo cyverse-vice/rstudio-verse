@@ -19,7 +19,7 @@ jobs:
     steps:
       - checkout
       - run: rstudio-server version
-  build2:
+  build3:
     docker:
       - image: cyversevice/rstudio-geospatial:3.6.3
     steps:
