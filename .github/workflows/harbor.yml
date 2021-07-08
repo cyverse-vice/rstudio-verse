@@ -1,13 +1,13 @@
-name: Docker to GitHub Registry
+name: harbor
 
 on:
   push:
-    branches: [ main ]
+    branches: main
 
 jobs:
   
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
     
     steps:
     
@@ -26,13 +26,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
       
-      - name: Login to ghcr
+      - name: Login to harbor
         if: github.event_name != 'pull_request'
         uses: docker/login-action@v1
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          registry: harbor.cyverse.org
+          username: ${{ secrets.HARBOR_USERNAME }}
+          password: ${{ secrets.HARBOR_PASSWORD }}
       
       - name: Build and push
         id: docker_build
