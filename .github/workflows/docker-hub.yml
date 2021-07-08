@@ -28,8 +28,8 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2.6.1
         with:
-          path: latest
-          dockerfile: latest/Dockerfile
+          path: ./latest
+          dockerfile: Dockerfile
           push: true
           tags: latest
           
