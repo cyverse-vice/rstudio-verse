@@ -31,7 +31,7 @@ jobs:
           path: ./latest
           dockerfile: Dockerfile
           push: true
-          tags: latest
+          tags: cyversevice/rstudio-verse:latest
           
       - name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
