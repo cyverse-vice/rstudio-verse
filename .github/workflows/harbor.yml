@@ -42,7 +42,7 @@ jobs:
           file: latest/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: harbor.cyverse.org/rstudio/verse:latest
+          tags: harbor.cyverse.org/vice/rstudio/verse:latest
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
       
@@ -54,7 +54,7 @@ jobs:
           file: 4.0.5/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: harbor.cyverse.org/rstudio/verse:4.0.5
+          tags: harbor.cyverse.org/vice/rstudio/verse:4.0.5
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
@@ -66,7 +66,7 @@ jobs:
           file: 4.0.0-ubuntu18.04/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: harbor.cyverse.org/rstudio/verse:4.0.0-ubuntu18.04
+          tags: harbor.cyverse.org/vice/rstudio/verse:4.0.0-ubuntu18.04
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
@@ -78,7 +78,7 @@ jobs:
           file: 3.6.3/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: harbor.cyverse.org/rstudio/verse:3.6.3
+          tags: harbor.cyverse.org/vice/rstudio/verse:3.6.3
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
