@@ -24,11 +24,11 @@ quick launch | size |
 To run these containers, you must first pull them from DockerHub
 
 ```
-docker pull harbor.cyverse.org/vice/rstudio/verse:latest
+docker pull cyversevice/rstudio-verse:latest
 ```
 
 ```
-docker run -it --rm -v /$HOME:/app --workdir /app -p 8787:80 -e REDIRECT_URL=http://localhost:8787 harbor.cyverse.org/vice/rstudio/verse:latest
+docker run -it --rm -e REDIRECT_URL=[YOUR CODESPACE URL]:8888 -p 8888:8888 harbor.cyverse.org/vice/jupyter/datascience:latest
 ```
 
 The default username is `rstudio` and password is `rstudio1`. To reset the password, add the flag `-e PASSWORD=<yourpassword>` in the `docker run` statement.
