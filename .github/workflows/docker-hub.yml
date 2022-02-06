@@ -33,32 +33,14 @@ jobs:
           push: true
           tags: cyversevice/rstudio-verse:latest
       -
-        name: Build and Push v4.0.5
-        id: docker_build_four_zero_five
+        name: Build and Push v4.1.2
+        id: docker_build_four_one_two
         uses: docker/build-push-action@v2
         with:
-          context: 4.0.5
-          file: 4.0.5/Dockerfile
+          context: 4.1.2
+          file: 4.1.2/Dockerfile
           push: true
-          tags: cyversevice/rstudio-verse:4.0.5     
-      -
-        name: Build and Push v4.0.0-ubuntu18.04
-        id: docker_build_four_zero_zero
-        uses: docker/build-push-action@v2
-        with:
-          context: 4.0.0-ubuntu18.04
-          file: 4.0.0-ubuntu18.04/Dockerfile
-          push: true
-          tags: cyversevice/rstudio-verse:4.0.0-ubuntu18.04
-      -
-        name: Build and Push v3.6.3
-        id: docker_build_three_six_three
-        uses: docker/build-push-action@v2
-        with:
-          context: 3.6.3
-          file: 3.6.3/Dockerfile
-          push: true
-          tags: cyversevice/rstudio-verse:3.6.3 
+          tags: cyversevice/rstudio-verse:4.1.2     
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
