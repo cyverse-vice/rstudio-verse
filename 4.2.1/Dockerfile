@@ -1,4 +1,4 @@
-FROM rocker/verse:latest
+FROM rocker/verse:4.2.1
 # This image uses the Rocker-Project verse RStudio image - thanks R OpenSci and Rocker!
 
 # Build-time metadata as defined at http://label-schema.org
