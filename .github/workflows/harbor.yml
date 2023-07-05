@@ -46,15 +46,15 @@ jobs:
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
-      - name: Build and push v4.2.1
-        id: docker_build_four_one_two
+      - name: Build and push v4.3.1
+        id: docker_build_four_three_one
         uses: docker/build-push-action@v3.1.1
         with:
-          context: 4.2.1
-          file: 4.2.1/Dockerfile
+          context: 4.3.1
+          file: 4.3.1/Dockerfile
           builder: ${{ steps.buildx.outputs.name }}
           push: true
-          tags: harbor.cyverse.org/vice/rstudio/verse:4.2.1
+          tags: harbor.cyverse.org/vice/rstudio/verse:4.3.1
           cache-from: type=local,src=/tmp/.buildx-cache
           cache-to: type=local,dest=/tmp/.buildx-cache
 
