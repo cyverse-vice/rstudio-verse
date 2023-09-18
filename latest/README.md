@@ -45,3 +45,7 @@ FROM harbor.cyverse.org/vice/rstudio/verse:latest
 ```
 
 Follow the instructions in the [VICE manual for integrating your own tools and apps](https://cyverse-visual-interactive-computing-environment.readthedocs-hosted.com/en/latest/developer_guide/building.html).
+
+---
+
+Harbor push comment for latest update.
