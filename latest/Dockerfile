@@ -18,10 +18,19 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 # Install a few dependencies for iCommands, text editing, and monitoring instances
 RUN apt-get update && apt-get install -y ca-certificates lsb-release wget apt-transport-https curl supervisor nginx gnupg2 libfuse2 nano htop gcc less nodejs software-properties-common apt-utils
 
-RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add - && \
-    echo "deb [arch=amd64] https://packages.irods.org/apt/ $(lsb_release -sc) main" >> /etc/apt/sources.list.d/renci-irods.list && \
-    apt-get update && \
-    apt install -y irods-icommands 
+#RUN wget -qO - https://packages.irods.org/irods-signing-key.asc | apt-key add - && \
+#    echo "deb [arch=amd64] https://packages.irods.org/apt/ $(lsb_release -sc) main" >> /etc/apt/sources.list.d/renci-irods.list && \
+#    apt-get update && \
+#    apt install -y irods-icommands 
+
+# Install Go
+RUN wget -q -c https://dl.google.com/go/go1.20.5.linux-amd64.tar.gz -O - | tar -xz -C /usr/local
+ENV PATH=$PATH:/usr/local/go/bin 
+
+# Install GoCommands
+RUN cd /usr/local/bin/ && \
+    GOCMD_VER=$(curl -L -s https://raw.githubusercontent.com/cyverse/gocommands/main/VERSION.txt); \
+    curl -L -s https://github.com/cyverse/gocommands/releases/download/${GOCMD_VER}/gocmd-${GOCMD_VER}-linux-amd64.tar.gz | tar zxvf - && rm gocmd.tar.gz
 
 # Install GitHub CLI
 RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | dd of=/etc/apt/trusted.gpg.d/githubcli-archive-keyring.gpg && \
