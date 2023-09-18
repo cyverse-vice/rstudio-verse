@@ -1,3 +1,5 @@
 #!/bin/sh
+
 gomplate -f /nginx.conf.tmpl -o /etc/nginx/nginx.conf
-supervisord -c /etc/supervisor/supervisord.conf -n
+# Drop privileges to rstudio user to run the services
+sudo supervisord -c /etc/supervisor/supervisord.conf -n
