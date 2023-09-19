@@ -65,9 +65,9 @@ RUN apt-get update && \
 
 # Install GoCommands
 # https://learning.cyverse.org/ds/gocommands/
-RUN cd /usr/local/bin && \
-    curl -L -o gocmd.tar.gz https://github.com/cyverse/gocommands/releases/download/v0.7.1/gocmd-v0.7.1-linux-amd64.tar.gz && \
-    tar zxvf gocmd.tar.gz && rm gocmd.tar.gz
+RUN cd /usr/local/bin/ && \
+    GOCMD_VER=$(curl -L -s https://raw.githubusercontent.com/cyverse/gocommands/main/VERSION.txt); \
+    curl -L -s https://github.com/cyverse/gocommands/releases/download/${GOCMD_VER}/gocmd-${GOCMD_VER}-linux-amd64.tar.gz | tar zxvf -
 
 RUN mkdir -p /var/log/supervisor && \
     touch /var/log/supervisor/supervisord.log && \
