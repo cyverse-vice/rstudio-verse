@@ -1,6 +1,6 @@
-FROM rocker/verse:latest
+FROM ghcr.io/rocker-org/verse:latest 
 # This image uses the Rocker-Project verse RStudio image - thanks R OpenSci and Rocker!
-
+# https://rocker-project.org/images/versioned/rstudio.html
 # Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE
 ARG VCS_REF
@@ -35,7 +35,7 @@ RUN apt update && apt install -y apt-transport-https \
     wget
 
 # Add gomplate
-ADD https://github.com/hairyhenderson/gomplate/releases/download/v3.9.0/gomplate_linux-amd64 /usr/bin/gomplate
+ADD https://github.com/hairyhenderson/gomplate/releases/download/v3.11.5/gomplate_linux-amd64 /usr/bin/gomplate
 RUN chmod a+x /usr/bin/gomplate
 
 # provide read and write access to Rstudio users for default R library location
@@ -85,3 +85,4 @@ USER rstudio
 WORKDIR /home/rstudio/data-store
     
 ENTRYPOINT ["/usr/local/bin/run.sh"]
+
