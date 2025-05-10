@@ -1,7 +1,6 @@
 FROM ghcr.io/rocker-org/verse:4.3.1
 # This image uses the Rocker-Project verse RStudio image - thanks R OpenSci and Rocker!
 # https://rocker-project.org/images/versioned/rstudio.html
-# 
 # Build-time metadata as defined at http://label-schema.org
 ARG BUILD_DATE
 ARG VCS_REF
@@ -16,7 +15,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.version=$VERSION \
       org.label-schema.schema-version="1.0.0"
 
-# Install a few dependencies for GoCommands, text editing, and monitoring instances
+# Install a few dependencies for iCommands, text editing, and monitoring instances
 RUN apt update && apt install -y apt-transport-https \
     apt-utils \
     ca-certificates \
@@ -56,18 +55,22 @@ COPY supervisor-rstudio.conf /etc/supervisor/conf.d/rstudio.conf
 ENV REDIRECT_URL "http://localhost/"
 
 ARG LOCAL_USER=rstudio
-ARG PRIV_CMDS='/bin/ch*,/bin/cat,/bin/gunzip,/bin/tar,/bin/mkdir,/bin/ps,/bin/mv,/bin/cp,/usr/bin/apt*,/usr/bin/pip*,/bin/yum,/usr/local/bin,/etc/nginx/nginx*'
+ARG PRIV_CMDS='/bin/ch*,/bin/cat,/bin/gunzip,/bin/tar,/bin/mkdir,/bin/ps,/bin/mv,/bin/cp,/usr/bin/apt*,/usr/bin/pip*,/bin/yum'
 
 RUN apt-get update && \
     apt-get install -y sudo && \
     echo "rstudio ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers && \
     rm -rf /var/lib/apt/lists/*
 
-# Install GoCommands
-# https://learning.cyverse.org/ds/gocommands/
+# Install GoCommmands
 RUN cd /usr/local/bin/ && \
-    GOCMD_VER=$(curl -L -s https://raw.githubusercontent.com/cyverse/gocommands/main/VERSION.txt); \
-    curl -L -s https://github.com/cyverse/gocommands/releases/download/${GOCMD_VER}/gocmd-${GOCMD_VER}-linux-amd64.tar.gz | tar zxvf -
+   GOCMD_VER=$(curl -L -s https://raw.githubusercontent.com/cyverse/gocommands/main/VERSION.txt); curl -L -s https://github.com/cyverse/gocommands/releases/download/${GOCMD_VER}/gocmd-${GOCMD_VER}-linux-amd64.tar.gz | tar zxvf -
+
+# Install GitHub CLI
+RUN curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/etc/apt/trusted.gpg.d/githubcli-archive-keyring.gpg && \
+    echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/trusted.gpg.d/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" > /etc/apt/sources.list.d/github-cli.list && \
+    apt update && \
+    apt install gh
 
 RUN mkdir -p /var/log/supervisor && \
     touch /var/log/supervisor/supervisord.log && \
@@ -75,10 +78,9 @@ RUN mkdir -p /var/log/supervisor && \
 
 RUN setcap 'cap_net_bind_service=+ep' /usr/bin/supervisord
 
-USER rstudio
-
 RUN echo 'export PS1="[\u@cyverse] \w $ "' >> /home/rstudio/.bashrc
-
+    
 WORKDIR /home/rstudio/data-store
-
+    
 ENTRYPOINT ["/usr/local/bin/run.sh"]
+
