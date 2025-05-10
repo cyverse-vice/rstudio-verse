@@ -78,8 +78,6 @@ RUN mkdir -p /var/log/supervisor && \
 
 RUN setcap 'cap_net_bind_service=+ep' /usr/bin/supervisord
 
-USER rstudio
-
  RUN echo 'export PS1="[\u@cyverse] \w $ "' >> /home/rstudio/.bashrc
     
 WORKDIR /home/rstudio/data-store
