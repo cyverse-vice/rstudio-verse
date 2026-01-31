@@ -1,4 +1,4 @@
-[![Project Supported by CyVerse](https://de.cyverse.org/Powered-By-CyVerse-blue.svg)](https://learning.cyverse.org/projects/vice/en/latest/) [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4527797.svg)](https://doi.org/10.5281/zenodo.4527797) [![license](https://img.shields.io/badge/license-GPLv2-blue.svg?style=flat-square)](https://opensource.org/licenses/GPL-2.0)
+[![Project Supported by CyVerse](https://de.cyverse.org/Powered-By-CyVerse-blue.svg)](https://learning.cyverse.org/projects/vice/en/latest/) [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active) [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.4527797.svg)](https://doi.org/10.5281/zenodo.4527797) [![license](https://img.shields.io/badge/license-GPLv2-blue.svg)](https://opensource.org/licenses/GPL-2.0)
 
 # RStudio Verse
 
@@ -10,9 +10,10 @@ Based on the [Rocker-Project.org](https://rocker-project.org) Docker [RStudio `v
 
 ## Quick Launch
 
-| Environment | Size |
-|-------------|------|
-| <a href="https://de.cyverse.org/apps/de/48b6e7ae-8b64-11ec-92dc-008cfa5ae621/launch" target="_blank"><img src="https://img.shields.io/badge/Verse-latest-blue?style=plastic&logo=rstudio"></a> | [![SIZE](https://img.shields.io/docker/image-size/cyversevice/rstudio-verse/latest.svg)](https://img.shields.io/docker/image-size/cyversevice/rstudio-verse/latest) |
+| Version | Launch |
+|---------|--------|
+| latest | <a href="https://de.cyverse.org/apps/de/3b5f5b16-19a5-11ed-b38a-008cfa5ae621/versions/3b5fc0ec-19a5-11ed-b38a-008cfa5ae621/launch" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Verse-latest-blue?style=plastic&logo=rstudio"></a> |
+| 4.5.0 | <a href="https://de.cyverse.org/apps/de/3b5f5b16-19a5-11ed-b38a-008cfa5ae621/launch" target="_blank" rel="noopener noreferrer"><img src="https://img.shields.io/badge/Verse-4.5.0-blue?style=plastic&logo=rstudio"></a> |
 
 ## Features
 
