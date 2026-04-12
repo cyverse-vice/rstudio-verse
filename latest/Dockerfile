@@ -97,10 +97,13 @@ ENV GCM_CREDENTIAL_STORE=cache
 # Install AI tools (Claude Code, Gemini CLI, OpenAI Codex)
 USER rstudio
 RUN npm config set prefix /home/rstudio/.npm-global && \
-    export PATH=/home/rstudio/.npm-global/bin:$PATH && \
     npm install -g @anthropic-ai/claude-code @google/gemini-cli @openai/codex && \
     npm cache clean --force
-ENV PATH="/home/rstudio/.npm-global/bin:${PATH}"
+
+# Install OpenCode (https://opencode.ai/)
+RUN curl -fsSL https://opencode.ai/install | bash
+
+ENV PATH="/home/rstudio/.npm-global/bin:/home/rstudio/.opencode/bin:${PATH}"
 USER root
 
 WORKDIR /home/rstudio/data-store
